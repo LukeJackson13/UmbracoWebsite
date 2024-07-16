@@ -1,0 +1,16 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+	Layout = "Master.cshtml";
+}
+
+<section class="section">
+    <div class="container">
+
+        @{
+            await Html.RenderPartialAsync("Partials/ContactForm.cshtml", new ContactFormViewModel());
+        }
+
+    </div>
+</section>

@@ -1,0 +1,92 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MemberContentModel>
+@using UmbracoProject1.Models;
+
+@{
+    Layout = "Master.cshtml";
+}
+
+<section class="section">
+    <div class="container">
+        <h1>Members List</h1>
+        <div class="my-3">
+            @using (Html.BeginUmbracoForm<MembersSurfaceController>
+            (nameof(MembersSurfaceController.LoadRegisterMemberForm)))
+            {
+                <button class="btn-primary" type="submit" name="createButton" value="create">Create</button>
+            }
+            <div class="container">
+                @{
+                    if (TempData["ShowRegisterMemberForm"] != null && (bool)TempData["ShowRegisterMemberForm"])
+                    {
+                        await Html.RenderPartialAsync("Partials/RegisterMemberForm.cshtml");
+                    }
+
+                }
+
+            </div>
+            <div class="container">
+                @{
+                    if (Model.MemberBeingEdited is not null)
+                    {
+                        await Html.RenderPartialAsync("Partials/EditMemberForm.cshtml");
+                    }
+
+                }
+
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Mobile Phone</th>
+                    <th>Membership Type</th>
+                    <th>Created Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var member in Model.Members)
+                {
+                    <tr>
+                        <td>@member.FullName</td>
+                        <td>@member.FirstName</td>
+                        <td>@member.LastName</td>
+                        <td>@member.Email</td>
+                        <td>@member.MobilePhone</td>
+                        <td>@member.MembershipType</td>
+                        <td>@member.CreatedDate.ToShortDateString()</td>
+                        <td>
+                            @using (Html.BeginUmbracoForm<MembersSurfaceController>
+                           (nameof(MembersSurfaceController.DeleteMember)))
+                            {
+
+                                <input type="hidden" value="@member.Id" name="id" />
+
+                                <button class="btn-inverted-orange" type="submit">Delete</button>
+                            }
+
+
+                        </td>
+                        <td>
+                            @using (Html.BeginUmbracoForm<MembersSurfaceController>
+                           (nameof(MembersSurfaceController.LoadEditMemberForm)))
+                            {
+
+                                <input type="hidden" value="@member.Id" name="id" />
+
+                                <button class="btn-inverted-orange" type="submit">Edit</button>
+                            }
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</section>

@@ -1,0 +1,68 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
+@inject IOptions<GoogleCaptchaConfig> GoogleCaptchaConfig
+
+@{
+    var contactModel = new ContactFormViewModel();
+
+    var success = TempData["FormSuccess"] != null;
+}
+
+@{
+
+    @if (success)
+    {
+        <h3>Thank you for equiring, we will contact you shortly.</h3>
+    }
+    else
+    {
+        using (Html.BeginUmbracoForm<ContactFormController>(nameof(ContactFormController.HandleContactFormSubmission), new { id = "contact-form" }))
+        {
+            <h2>Contact us using the form below.</h2>
+            <hr />
+            <input asp-for="@contactModel.RecaptchaToken" type="hidden" id="token"/>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="@contactModel.FirstName" class="form-label"></label>
+                <input asp-for="@contactModel.FirstName" class="form-control" aria-required="true" />
+                <span asp-validation-for="@contactModel.FirstName" class="form-text text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@contactModel.LastName" class="form-label"></label>
+                <input asp-for="@contactModel.LastName" class="form-control" aria-required="true" />
+                <span asp-validation-for="@contactModel.LastName" class="form-text text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@contactModel.Email" class="form-label"></label>
+                <input asp-for="@contactModel.Email" class="form-control" autocomplete="email" aria-required="true" />
+                <span asp-validation-for="@contactModel.Email" class="form-text text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@contactModel.Phone" class="form-label"></label>
+                <input asp-for="@contactModel.Phone" class="form-control" aria-required="true" />
+                <span asp-validation-for="@contactModel.Phone" class="form-text text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@contactModel.Message" class="form-label"></label>
+                <textarea asp-for="@contactModel.Message" class="form-control" aria-required="true"></textarea>
+                <span asp-validation-for="@contactModel.Message" class="form-text text-danger"></span>
+            </div>
+
+            <button class="btn-primary" type="submit">Submit</button>
+        }
+    }
+}
+
+
+<script src="https://www.google.com/recaptcha/api.js?render=@GoogleCaptchaConfig.Value.SiteKey"></script>
+<script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@GoogleCaptchaConfig.Value.SiteKey', { action: 'contact' }).then(function (token) {
+                console.log(token);
+                document.getElementById("token").value = token;
+            });
+        });
+</script>
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,56 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@using Microsoft.AspNetCore.Http.Extensions
+@using UmbracoProject1.Models;
+@using Umbraco.Extensions
+
+@{
+    // Build a registration model with parameters
+    var memberModel = new UmbracoProject1.Models.Member();
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+
+
+@using (Html.BeginUmbracoForm<MembersSurfaceController>(nameof(MembersSurfaceController.SubmitRegisterMemberForm)))
+{
+    <h2>Create a new member.</h2>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.FullName" class="form-label"></label>
+        <input asp-for="@memberModel.FullName" class="form-control" aria-required="true" />
+        <span asp-validation-for="@memberModel.FullName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.FirstName" class="form-label"></label>
+        <input asp-for="@memberModel.FirstName" class="form-control" autocomplete="username" aria-required="true" />
+        <span asp-validation-for="@memberModel.FirstName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.LastName" class="form-label"></label>
+        <input asp-for="@memberModel.LastName" class="form-control" autocomplete="new-password" aria-required="true" />
+        <span asp-validation-for="@memberModel.LastName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.Email" class="form-label"></label>
+        <input asp-for="@memberModel.Email" class="form-control" autocomplete="username" aria-required="true" />
+        <span asp-validation-for="@memberModel.Email" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.MobilePhone" class="form-label"></label>
+        <input asp-for="@memberModel.MobilePhone" class="form-control" aria-required="true" />
+        <span asp-validation-for="@memberModel.MobilePhone" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@memberModel.MembershipType" class="form-label"></label>
+        <input asp-for="@memberModel.MembershipType" class="form-control" aria-required="true" />
+        <span asp-validation-for="@memberModel.MembershipType" class="form-text text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+
+}

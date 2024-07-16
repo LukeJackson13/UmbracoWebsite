@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<MemberContentModel>
+@using Microsoft.AspNetCore.Http.Extensions
+@using UmbracoProject1.Models;
+@using Umbraco.Extensions
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+@{
+    var updateModel = Model.MemberBeingEdited; 
+}
+
+@using (Html.BeginUmbracoForm<MembersSurfaceController>(nameof(MembersSurfaceController.UpdateMember)))
+{
+    <h2>Edit a member.</h2>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@updateModel.Id"/>
+    <div class="mb-3">
+        <label asp-for="@updateModel.FullName" class="form-label"></label>
+        <input asp-for="@updateModel.FullName" class="form-control" aria-required="true" />
+        <span asp-validation-for="@updateModel.FullName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@updateModel.FirstName" class="form-label"></label>
+        <input asp-for="@updateModel.FirstName" class="form-control" autocomplete="username" aria-required="true" />
+        <span asp-validation-for="@updateModel.FirstName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@updateModel.LastName" class="form-label"></label>
+        <input asp-for="@updateModel.LastName" class="form-control" autocomplete="new-password" aria-required="true" />
+        <span asp-validation-for="@updateModel.LastName" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@updateModel.Email" class="form-label"></label>
+        <input asp-for="@updateModel.Email" class="form-control" autocomplete="username" aria-required="true" />
+        <span asp-validation-for="@updateModel.Email" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@updateModel.MobilePhone" class="form-label"></label>
+        <input asp-for="@updateModel.MobilePhone" class="form-control" aria-required="true" />
+        <span asp-validation-for="@updateModel.MobilePhone" class="form-text text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="@updateModel.MembershipType" class="form-label"></label>
+        <input asp-for="@updateModel.MembershipType" class="form-control" aria-required="true" />
+        <span asp-validation-for="@updateModel.MembershipType" class="form-text text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+}
